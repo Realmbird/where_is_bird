@@ -1,19 +1,30 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 import birdLogo from '/Tree1.webp'
 import './App.css'
 import Dropdown from './Dropdown.jsx'
+
 
 function App() {
   //sets dropdown hidden
   const [isHidden, setHidden] = useState(true);
   //gives style for dropdown position
   const [position, setPosition] = useState({})
+  const refImage = useRef(null)
 
     const ToggleClass = () => {
         setHidden(false);
        
     };
+    const handleClickOutside = (e) => {
+      if(!refImage.current.contains(e.target)){
+        setHidden(true);
+      }
+      
+    };
+    useEffect(() => {
+      document.addEventListener("click", handleClickOutside, true)
+    }, [])
 
   const handleClick = (event) => {
     searchBird(event)
@@ -28,8 +39,8 @@ function App() {
           top: `${y-12.5}px`
         })
   }
-  const searchBird = (event) => {
-    
+  // logs x and y
+  const logLocation = (event) => {
     let bird = event.target
     let rect = bird.getBoundingClientRect()
     let x = (event.pageX - rect.left) / rect.width * 100;
@@ -41,12 +52,17 @@ function App() {
     console.log(y)
     alert("X Coordinate: " + x + " Y Coordinate: " + y);
   }
+  const searchBird = (event) => {
+    
+    
+    logLocation(event)
+  }
 
   return (
     <>
       <div>
         
-        <img onClick={handleClick} src={birdLogo} className="logo" alt="Vite logo" />
+        <img onClick={handleClick} src={birdLogo} className="logo" alt="Vite logo" ref = {refImage} />
         <Dropdown hidden = {isHidden} position = {position}/>
       </div>
     </>
