@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 
-import birdLogo from '/Tree1.webp'
+import birdLogo from '/Tree2.webp'
 import './App.css'
 import Dropdown from './Dropdown.jsx'
 
@@ -43,14 +43,12 @@ function App() {
   const logLocation = (event) => {
     let bird = event.target
     let rect = bird.getBoundingClientRect()
-    let x = (event.pageX - rect.left) / rect.width * 100;
+    let x = (event.clientX - rect.left) / rect.width * 100;
     // actual position - offset / width_image * 100
-    let y = (event.pageY - rect.top) / rect.height * 100;
+    let y = (event.clientY - rect.top) / rect.height * 100;
 
     setCoordinates(event.pageX, event.pageY)
-    console.log(x)
-    console.log(y)
-    alert("X Coordinate: " + x + " Y Coordinate: " + y);
+    console.log("X Coordinate: " + x + " Y Coordinate: " + y);
   }
   const searchBird = (event) => {
     

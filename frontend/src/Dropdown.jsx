@@ -5,8 +5,9 @@ function Dropdown({hidden = true, position}) {
         <div className = {hidden ? "dropdown hidden" : "dropdown"} style={position}>
             <div className="dropdown-pointer"></div>
             <ul>
-               <li><a href="">Flamingo</a></li> 
-               <li><a href="">Flamingo</a></li>
+               <li><a >Flamingo</a></li> 
+               <li><a >Lion</a></li>
+               <li><a >Tiger</a></li>
             </ul>
         </div>
     )
