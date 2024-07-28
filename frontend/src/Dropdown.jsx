@@ -8,7 +8,8 @@ function Dropdown({hidden = true, position, validation}) {
             <div className="dropdown-pointer"></div>
             <ul>
                 {
-                selections.map((item) => (<li><a onClick = {validation(item)}>{item}</a></li>) )
+                // eslint-disable-next-line react/jsx-key
+                selections.map((item) => (<li><a key = {item} onClick = {() => {validation(item)}}>{item}</a></li>) )
                 }
             </ul>
         </div>

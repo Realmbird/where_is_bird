@@ -22,7 +22,7 @@ function App() {
        
     };
     const handleClickOutside = (e) => {
-      if(!refImage.current.contains(e.target)){
+      if(refImage.current && !refImage.current.contains(e.target)){
         setHidden(true);
       }
       
@@ -38,9 +38,9 @@ function App() {
       }
     }, [])
     async function checkClick(target) {
-      const response = await fetch(`http://localhost:3000/click?x=${X}&y=${Y}&target=${target}.json`, {mode: 'cors'});
+      const response = await fetch(`http://localhost:3000/click?x=${X}&y=${Y}&target=${target}`, {mode: 'cors'});
       const data = await response.json();
-      console.log(data);
+      console.log(data)
     }
 
   const handleClick = (event) => {
@@ -51,12 +51,7 @@ function App() {
     // You don't need whitespace in here, I added it for readability
     // I would recommend using something like EmotionJS for this
     setX(x);
-    setY(y)    
-    setPosition({
-          position: 'absolute',
-          left: `${x-12.5}px`,
-          top: `${y-12.5}px`
-    })
+    setY(y);    
   }
   // logs x and y
   const logLocation = (event) => {
@@ -65,7 +60,11 @@ function App() {
     let x = (event.clientX - rect.left) / rect.width * 100;
     // actual position - offset / width_image * 100
     let y = (event.clientY - rect.top) / rect.height * 100;
-
+    setPosition({
+      position: 'absolute',
+      left: `${event.pageX-12.5}px`,
+      top: `${event.pageY-12.5}px`
+    })
     setCoordinates(x, y)
     console.log("X Coordinate: " + x + " Y Coordinate: " + y);
   }
