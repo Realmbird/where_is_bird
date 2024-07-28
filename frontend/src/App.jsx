@@ -16,6 +16,22 @@ function App() {
   //coordinates
   const [X, setX] = useState(0);
   const [Y, setY] = useState(0);
+  const [found, setFound] = useState([]);
+  const [timerOn, setTimerOn] = useState(true);
+  const [score, setScore] = useState(0);
+  
+
+  useEffect( () => {
+    
+    const interval = setInterval(() => {
+      if(timerOn) {
+        setScore((score) => score + 1)
+      }
+     
+    }, 1000)
+    return () => clearInterval(interval); 
+}, [timerOn])
+  
 
     const ToggleClass = () => {
         setHidden(false);
@@ -77,7 +93,7 @@ function App() {
   return (
     <>
       <div>
-        
+        <p>Score: {score}</p>
         <img onClick={handleClick} src={birdLogo} className="logo" alt="Vite logo" ref = {refImage} />
         <Dropdown hidden = {isHidden} position = {position} validation = {checkClick} />
       </div>
