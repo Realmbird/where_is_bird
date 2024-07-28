@@ -108,6 +108,7 @@ function App() {
     })
     setCoordinates(x, y)
     console.log("X Coordinate: " + x + " Y Coordinate: " + y);
+    console.log("X" + event.clientX / window.innerWidth * 100 + "Y" + event.clientY / window.innerHeight * 100)
   }
   const searchBird = (event) => {
     
@@ -144,6 +145,18 @@ function App() {
         <h3>Name: {score.name}</h3>
         <h3>Score: {score.score}</h3>
       </div>))}
+      To Find
+      <ul>
+      {["Flamingo", "Lion", "Tiger"].map((item) => (
+        <li>{item}</li>
+      ))}
+      </ul>
+      List Found
+      <ul>
+      {found.map((item) => (
+        <li>{item}</li>
+      ))}
+      </ul>
     </>
   )
 }
