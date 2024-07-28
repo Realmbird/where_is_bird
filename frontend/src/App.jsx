@@ -19,7 +19,8 @@ function App() {
   const [found, setFound] = useState([]);
   const [timerOn, setTimerOn] = useState(true);
   const [score, setScore] = useState(0);
-  
+  const [over, setOver] = useState(false);
+  const [username, setUsername] = useState("");
 
   useEffect( () => {
     
@@ -31,6 +32,14 @@ function App() {
     }, 1000)
     return () => clearInterval(interval); 
 }, [timerOn])
+
+  useEffect (() => {
+    if (found.length == 3) {
+      setOver(true);
+      setTimerOn(false);
+    }
+    console.log(found)
+  }, [found])
   
 
     const ToggleClass = () => {
@@ -46,17 +55,25 @@ function App() {
     useEffect(() => {
       document.addEventListener("click", handleClickOutside, true)
     }, [])
-    useEffect(() => {
-      async function getTime() {
-        const response = await fetch('http://localhost:3000/time', {mode: 'cors'});
-        const data = await response.json();
-        console.log(data);
-      }
-    }, [])
+    // useEffect(() => {
+    //   async function getTime() {
+    //     const response = await fetch('http://localhost:3000/time', {mode: 'cors'});
+    //     const data = await response.json();
+    //     console.log(data);
+    //   }
+    // }, [])
     async function checkClick(target) {
       const response = await fetch(`http://localhost:3000/click?x=${X}&y=${Y}&target=${target}`, {mode: 'cors'});
       const data = await response.json();
-      console.log(data)
+      if(data.hit){
+        setFound((found) => {
+          if (!found.includes(data.target)) {
+            return [...found, data.target];
+          }
+          return found;
+        })
+      }
+      
     }
 
   const handleClick = (event) => {
@@ -89,13 +106,31 @@ function App() {
     
     logLocation(event)
   }
-
+  const userChange = (event) => {
+    setUsername(event.target.value)
+  }
+  const userSubmit = (event) => {
+    event.preventDefault();
+    try {
+      fetch(`http://localhost:3000/time?name=${username}&score=${score}`, {method: "POST", mode: 'cors'});
+    }catch (error){
+      console.error('Error making fetch request:', error);
+    }
+  }
   return (
     <>
       <div>
         <p>Score: {score}</p>
         <img onClick={handleClick} src={birdLogo} className="logo" alt="Vite logo" ref = {refImage} />
         <Dropdown hidden = {isHidden} position = {position} validation = {checkClick} />
+        {over ? <div>
+          Add your Score
+          <form onSubmit={userSubmit}>
+            <label> Name: 
+          <input type="text" value={username} onChange={userChange} />        </label>
+        <input type="submit" value="Submit" />
+      </form>
+        </div>: <div>Click and Selct the Birds</div>}
       </div>
     </>
   )

@@ -3,4 +3,5 @@ Rails.application.routes.draw do
    get 'click', to: 'click#validate_click'
   # Defines the root path route ("/")
   # root "articles#index"
+  post 'time', to: 'score#add_score'
 end
