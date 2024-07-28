@@ -4,4 +4,5 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "articles#index"
   post 'time', to: 'score#add_score'
+  get 'time', to: 'score#index'
 end

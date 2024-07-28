@@ -21,6 +21,7 @@ function App() {
   const [score, setScore] = useState(0);
   const [over, setOver] = useState(false);
   const [username, setUsername] = useState("");
+  const [list, setList] = useState([]);
 
   useEffect( () => {
     
@@ -52,8 +53,14 @@ function App() {
       }
       
     };
+    async function getScores() {
+      const response = await fetch(`http://localhost:3000/time`, {mode: 'cors'});
+      const data = await response.json();
+      setList(data)
+    }
     useEffect(() => {
       document.addEventListener("click", handleClickOutside, true)
+      getScores()
     }, [])
     // useEffect(() => {
     //   async function getTime() {
@@ -62,6 +69,7 @@ function App() {
     //     console.log(data);
     //   }
     // }, [])
+    
     async function checkClick(target) {
       const response = await fetch(`http://localhost:3000/click?x=${X}&y=${Y}&target=${target}`, {mode: 'cors'});
       const data = await response.json();
@@ -132,6 +140,10 @@ function App() {
       </form>
         </div>: <div>Click and Selct the Birds</div>}
       </div>
+      {list.map((score) => (<div key = {score.id}>
+        <h3>Name: {score.name}</h3>
+        <h3>Score: {score.score}</h3>
+      </div>))}
     </>
   )
 }
